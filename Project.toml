@@ -3,5 +3,9 @@ uuid = "1d185b12-e443-4c41-b905-3d45193ab7f5"
 authors = ["yhqjohn <25428156+yhqjohn@users.noreply.github.com> and contributors"]
 version = "0.0.1-DEV"
 
+[deps]
+AbstractTrees = "1520ce14-60c1-5f80-bbc7-55ef81b5835c"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+
 [compat]
 julia = "1.6"

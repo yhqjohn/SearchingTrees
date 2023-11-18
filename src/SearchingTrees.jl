@@ -1,5 +1,17 @@
 module SearchingTrees
 
-# Write your package code here.
+using Reexport
 
-end
+include("core.jl")
+# include("binary_searching_tree.jl")
+# include("BinMaps.jl")
+include("rbtrees.jl")
+
+using .SearchingTreeCore
+
+# export AbstractSearchingTree, TreeMapPair, datacomp, dataeq, topair, AbstactTreeMap
+# @reexport using .BinarySearchTrees
+# @reexport using .BinMaps
+@reexport using .RBTrees
+
+end # module SearchingTrees
