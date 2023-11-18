@@ -1,0 +1,7 @@
+name = "SearchingTrees"
+uuid = "1d185b12-e443-4c41-b905-3d45193ab7f5"
+authors = ["yhqjohn <25428156+yhqjohn@users.noreply.github.com> and contributors"]
+version = "0.0.1-DEV"
+
+[compat]
+julia = "1.6"
