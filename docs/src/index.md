@@ -9,6 +9,9 @@ Documentation for [SearchingTrees](https://github.com/yhqjohn/SearchingTrees.jl)
 ```@index
 ```
 
-```@autodocs
-Modules = [SearchingTrees]
+## Types
+
+
+```@docs
+AbstractBinTree{T}
 ```

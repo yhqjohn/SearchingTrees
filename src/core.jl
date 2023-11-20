@@ -14,11 +14,12 @@ Optional{T} = Union{T, Nothing}
     abstract type AbstractBinTree{T} <: AbstractNode{T}
 
 AbstractBinTree is an abstract type for binary trees. It is a subtype of `AbstractTrees.AbstractNode{T}`.
+# interface
 Such methods should be implemented for `AbstractBinTree{T}`:
-    - `left(t::AbstractBinTree)`: return the left child of `t`. The default implementation is `t.left`.
-    - `right(t::AbstractBinTree)`: return the right child of `t`. The default implementation is `t.right`.
-    - `parent(t::AbstractBinTree)`: return the parent of `t`. This should be implemented if you want to use the default `iterate` method. The default implementation is `t.parent`.
-    - `nodevalue(t::AbstractBinTree{T})`: return the value of `t` of type `T`.
+- `left(t::AbstractBinTree)`: return the left child of `t`. The default implementation is `t.left`.
+- `right(t::AbstractBinTree)`: return the right child of `t`. The default implementation is `t.right`.
+- `parent(t::AbstractBinTree)`: return the parent of `t`. This should be implemented if you want to use the default `iterate` method. The default implementation is `t.parent`.
+- `nodevalue(t::AbstractBinTree{T})`: return the value of `t` of type `T`.
 """
 abstract type AbstractBinTree{T} <: AbstractNode{T} end
 

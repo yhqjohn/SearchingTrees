@@ -7,7 +7,7 @@ include("core.jl")
 # include("BinMaps.jl")
 include("rbtrees.jl")
 
-using .SearchingTreeCore
+@reexport using .SearchingTreeCore
 
 # export AbstractSearchingTree, TreeMapPair, datacomp, dataeq, topair, AbstactTreeMap
 # @reexport using .BinarySearchTrees
