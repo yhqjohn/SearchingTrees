@@ -3,6 +3,7 @@ module RBTrees
 import ..SearchingTreeCore:AbstractBinTree, leftmost, rightmost, leftnearest, rightnearest, Nil, nil, Nillable, Optional, left, right, SubtreeIterator
 using AbstractTrees
 
+
 mutable struct RBTreeMapNode{K, V} <: AbstractBinTree{Pair{K, V}}
     key::K
     value::V
@@ -13,7 +14,7 @@ mutable struct RBTreeMapNode{K, V} <: AbstractBinTree{Pair{K, V}}
 end
 RBTreeMapNode{K, V}(key, value) where {K, V} = RBTreeMapNode{K, V}(key, value, nil, nil, nil, false)
 AbstractTrees.nodevalue(t::RBTreeMapNode{K, V}) where {K, V} = (t.key=>t.value)
-
+AbstractTrees.printnode(io::IO, t::RBTreeMapNode{K, V}) where {K, V} = print(io, (is_red(t) ? "R" : "B"), "(", t.key, "=>", t.value, ")")
 is_red(node::RBTreeMapNode{K, V}) where {K, V} = node.color
 is_red(::Nil) = false
 is_black(node::RBTreeMapNode{K, V}) where {K, V} = !(node.color)
@@ -266,12 +267,40 @@ rb_delete_fixup!(root, ::Nil) = root
 successor(x::RBTreeMapNode{K, V}) where {K, V} = leftmost(x.right)
 is_leaf(x::RBTreeMapNode{K, V}) where {K, V} = (x.left === nil) && (x.right === nil)
 
+"""
+    RBTreeMap{K, V}
 
+A red-black tree map with key type `K` and value type `V`.
+
+# Fields
+
+- `root::Union{RBTreeMapNode{K, V}, Nil}`: the root node of the tree, might either be a [`RBTreeMapNode`](@ref) or `nil` when the tree is empty.
+
+# Constructors
+
+- `RBTreeMap{K, V}()`: create an empty tree map
+
+An RBTreeMap is a subtype of `AbstractDict{K, V}` and it is an ordered map based on red-black tree data structure.
+It implements the following interfaces:
+- [`Base.get(d::RBTreeMap{K, V}, key::K, default) where{K, V}`](@ref): 
+- [`Base.getindex(d::RBTreeMap{K, V}, key::K) where{K, V}`](@ref)
+- [`Base.setindex!(d::RBTreeMap{K, V}, value::V, key::K) where{K, V}`](@ref)
+- [`Base.delete!(d::RBTreeMap{K, V}, key::K) where{K, V}`](@ref)
+- [`Base.iterate(d::RBTreeMap{K, V}) where{K, V}`](@ref)
+- [`Base.empty(d::RBTreeMap{K, V}) where{K, V}`](@ref): return an empty RBTreeMap with the same key and value types as `d`
+- [`Base.empty!(d::RBTreeMap{K, V}) where{K, V}`](@ref): empty `d` in place
+- [`Base.isempty(d::RBTreeMap{K, V}) where{K, V}`](@ref): return `true` if `d` is empty
+"""
 mutable struct RBTreeMap{K, V} <: AbstractDict{K, V}
     root::Nillable{RBTreeMapNode{K, V}}
 end
 RBTreeMap{K, V}() where {K, V} = RBTreeMap{K, V}(nil)
 
+"""
+    Base.get(d::RBTreeMap{K, V}, key::K, default)
+
+Get the value of `key` in `d`, return `default` if `key` is not in `d`
+"""
 function Base.get(d::RBTreeMap{K, V}, key::K, default) where{K, V}
     node = search_node(d.root, key)
     if node === nil
@@ -281,6 +310,11 @@ function Base.get(d::RBTreeMap{K, V}, key::K, default) where{K, V}
     end
 end
 
+"""
+    Base.getindex(d::RBTreeMap{K, V}, key::K)
+
+Get the value of `key` in `d`, throw `KeyError` if `key` is not in `d`. Called by `d[key]`.
+"""
 function Base.getindex(d::RBTreeMap{K, V}, key::K) where{K, V}
     node = search_node(d.root, key)
     if node === nil
@@ -290,6 +324,11 @@ function Base.getindex(d::RBTreeMap{K, V}, key::K) where{K, V}
     end
 end
 
+"""
+    Base.setindex!(d::RBTreeMap{K, V}, value::V, key::K)
+
+Set the value of `key` in `d` to `value`. Called by `d[key] = value`.
+"""
 function Base.setindex!(d::RBTreeMap{K, V}, value::V, key::K) where{K, V}
     if d.root === nil
         d.root = RBTreeMapNode{K, V}(key, value)
@@ -298,6 +337,11 @@ function Base.setindex!(d::RBTreeMap{K, V}, value::V, key::K) where{K, V}
     end
 end
 
+"""
+    Base.delete!(d::RBTreeMap{K, V}, key::K)
+
+Delete `key` in `d`. Called by `delete!(d, key)`.
+"""
 function Base.delete!(d::RBTreeMap{K, V}, key::K) where{K, V}
     node = search_node(d.root, key)
     if node !== nil
@@ -306,6 +350,11 @@ function Base.delete!(d::RBTreeMap{K, V}, key::K) where{K, V}
     return d
 end
 
+"""
+    Base.iterate(d::RBTreeMap{K, V})
+
+Iterate through `d` in ascending order of keys.
+"""
 function Base.iterate(d::RBTreeMap{K, V}) where{K, V}
     if d.root === nil
         return nothing
@@ -325,9 +374,25 @@ Base.length(d::RBTreeMap{K, V}) where{K, V} = if d.root === nil 0 else length(d.
 Base.IteratorEltype(::Type{RBTreeMap{K, V}}) where{K, V} = Base.HasEltype()
 Base.eltype(::RBTreeMap{K, V}) where{K, V} = Pair{K, V}
 
+"""
+    Base.empty(d::RBTreeMap{K, V})
+
+Return an empty RBTreeMap with the same key and value types as `d`.
+"""
 Base.empty(::RBTreeMap{K, V}) where{K, V} = RBTreeMap{K, V}()
+
+"""
+    Base.empty!(d::RBTreeMap{K, V})
+
+Empty `d` in place.
+"""
 Base.empty!(d::RBTreeMap{K, V}) where{K, V} = (d.root = nil; d)
 
+"""
+    Base.isempty(d::RBTreeMap{K, V})
+
+Return `true` if `d` is empty.
+"""
 Base.isempty(d::RBTreeMap{K, V}) where{K, V} = d.root === nil
 
 

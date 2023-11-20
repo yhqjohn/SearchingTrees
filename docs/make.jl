@@ -16,6 +16,8 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Interface" => "interface.md",
+        "Red-Black Tree" => "red_black_tree.md",
     ],
     warnonly = true,
 )
