@@ -21,4 +21,5 @@ Base.delete!(d::RBTreeMap{K, V}, key::K) where {K, V}
 Base.iterate(d::RBTreeMap{K, V}) where {K, V}
 Base.empty(d::RBTreeMap{K, V}) where {K, V}
 Base.empty!(d::RBTreeMap{K, V}) where {K, V}
+Base.isempty(d::RBTreeMap{K, V}) where {K, V}
 ```
