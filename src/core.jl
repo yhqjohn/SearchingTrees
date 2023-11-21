@@ -34,8 +34,22 @@ left(::Nil) = nil
 right(::Nil) = nil
 Base.parent(::Nil) = nil
 
+"""
+    AbstractTrees.children(t::T) where {T<:AbstractBinTree}
+
+Return a tuple of children of an `AbstractBinTree` node `t`. 
+The default implementation is (left(t), right(t)) if `left` and `right` are defined,
+or (left(t),) if only `left` is defined, or (right(t),) if only `right` is defined,
+otherwise ().
+"""
 AbstractTrees.children(t::T) where {T<:AbstractBinTree} = compose_tuple(left(t), right(t))
 
+"""
+    Base.iterate(t::T) where {T<:AbstractBinTree}
+
+Iterate over nodes in in-order DFS order.
+If the tree is a minimal binary search tree, this is equivalent to iterating over the values in ascending order.
+"""
 function Base.iterate(root::T) where {T<:AbstractBinTree} # iterate over nodes in in-order DFS order
     node = leftmost(root) # node is leftmost node and might be root
     parent_ = node|>parent

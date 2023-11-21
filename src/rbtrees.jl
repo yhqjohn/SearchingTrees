@@ -446,14 +446,14 @@ end
 #     return node.key=>node.value, state
 # end
 
-Base.IteratorSize(::Type{RBTreeMapRangeView{K, V}}) where{K, V} = Base.SizeUnknown()
+# Base.IteratorSize(::Type{RBTreeMapRangeView{K, V}}) where{K, V} = Base.SizeUnknown()
 # Base.length(d::RBTreeMapRangeView{K, V}) where{K, V} = if d.subtreeroot === nil 0 else length(d.subtreeroot) - length(d.subsubtreeroot) end
-Base.IteratorEltype(::Type{RBTreeMapRangeView{K, V}}) where{K, V} = Base.HasEltype()
-Base.eltype(::RBTreeMapRangeView{K, V}) where {K, V} = Pair{K, V}
+# Base.IteratorEltype(::Type{RBTreeMapRangeView{K, V}}) where{K, V} = Base.HasEltype()
+# Base.eltype(::RBTreeMapRangeView{K, V}) where {K, V} = Pair{K, V}
 
-Base.empty(::RBTreeMapRangeView{K, V}) where {K, V} = RBTreeMap{K, V}()
-Base.isempty(d::RBTreeMapRangeView{K, V}) where {K, V} = ((d.original.root) === nil)
-Base.getindex(d::RBTreeMap{K, V}, ::Range{Nothing}) where {K, V} = d
+# Base.empty(::RBTreeMapRangeView{K, V}) where {K, V} = RBTreeMap{K, V}()
+# Base.isempty(d::RBTreeMapRangeView{K, V}) where {K, V} = ((d.original.root) === nil)
+# Base.getindex(d::RBTreeMap{K, V}, ::Range{Nothing}) where {K, V} = d
 # function Base.getindex(d::RBTreeMap{K, V}, r::Range{K}) where {K, V}
 #     start, stop = r.start, r.stop
 #     if (start === nothing) && (stop === nothing)
